@@ -13,7 +13,6 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Boxo",
     locale: "en_US",
-    images: [{ url: "/favicon/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
@@ -44,6 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="min-h-screen">
