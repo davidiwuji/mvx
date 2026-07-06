@@ -2,30 +2,16 @@
 import type { StreamSource, ContentType } from './types';
 
 /**
- * Real embed providers that free streaming sites use.
- * All accept TMDB ID as parameter and return embedded video players.
- * 
- * Verified working: VidSrc.to, VidSrc.pro, VidLink.pro, Embed.su, 2Embed.cc
+ * Embed providers ordered by ad cleanliness (cleanest first).
+ *
+ * Ad experience ranking (based on real usage):
+ * ① Embed.su      — Minimal ads, plays cleanly, few popups
+ * ② 2Embed.cc     — Light ads, reliable playback
+ * ③ VidLink.pro   — Some overlay ads, moderate
+ * ④ VidSrc Pro    — More popups/redirects, use as fallback
+ * ⑤ VidSrc.to     — Heaviest ads, last resort
  */
 const EMBED_PROVIDERS = {
-  vidsrc_to: {
-    name: 'VidSrc',
-    movie: (id: number) => `https://vidsrc.to/embed/movie/${id}`,
-    tv: (id: number, season?: number, episode?: number) =>
-      `https://vidsrc.to/embed/tv/${id}/${season || 1}/${episode || 1}`,
-  },
-  vidsrc_pro: {
-    name: 'VidSrc Pro',
-    movie: (id: number) => `https://vidsrc.pro/embed/movie/${id}`,
-    tv: (id: number, season?: number, episode?: number) =>
-      `https://vidsrc.pro/embed/tv/${id}/${season || 1}/${episode || 1}`,
-  },
-  vidlink: {
-    name: 'VidLink',
-    movie: (id: number) => `https://vidlink.pro/movie/${id}`,
-    tv: (id: number, season?: number, episode?: number) =>
-      `https://vidlink.pro/tv/${id}/${season || 1}/${episode || 1}`,
-  },
   embed_su: {
     name: 'Embed',
     movie: (id: number) => `https://embed.su/embed/movie/${id}`,
@@ -38,7 +24,32 @@ const EMBED_PROVIDERS = {
     tv: (id: number, season?: number, episode?: number) =>
       `https://www.2embed.cc/embedtv/${id}&s=${season || 1}&e=${episode || 1}`,
   },
+  vidlink: {
+    name: 'VidLink',
+    movie: (id: number) => `https://vidlink.pro/movie/${id}`,
+    tv: (id: number, season?: number, episode?: number) =>
+      `https://vidlink.pro/tv/${id}/${season || 1}/${episode || 1}`,
+  },
+  vidsrc_pro: {
+    name: 'VidSrc Pro',
+    movie: (id: number) => `https://vidsrc.pro/embed/movie/${id}`,
+    tv: (id: number, season?: number, episode?: number) =>
+      `https://vidsrc.pro/embed/tv/${id}/${season || 1}/${episode || 1}`,
+  },
+  vidsrc_to: {
+    name: 'VidSrc',
+    movie: (id: number) => `https://vidsrc.to/embed/movie/${id}`,
+    tv: (id: number, season?: number, episode?: number) =>
+      `https://vidsrc.to/embed/tv/${id}/${season || 1}/${episode || 1}`,
+  },
 };
+
+/**
+ * Number of embed sources to expose.
+ * Fewer sources = fewer ad-heavy fallbacks offered to users.
+ * Set to 3 for a good balance: clean playback + sufficient coverage.
+ */
+const MAX_EMBED_SOURCES = 3;
 
 export function getEmbedSources(
   tmdbId: number,
@@ -49,7 +60,10 @@ export function getEmbedSources(
   const sources: StreamSource[] = [];
   const providers = Object.values(EMBED_PROVIDERS);
 
-  for (const p of providers) {
+  // Only take the top-N cleanest providers
+  const activeProviders = providers.slice(0, MAX_EMBED_SOURCES);
+
+  for (const p of activeProviders) {
     try {
       const url = type === 'movie' ? p.movie(tmdbId) : p.tv(tmdbId, season, episode);
       sources.push({
@@ -92,7 +106,7 @@ export function getStreamSources(
     }
   }
 
-  // Add embed sources
+  // Add embed sources (limited to cleanest providers)
   const embeds = getEmbedSources(detail.id, type, season, episode);
   sources.push(...embeds);
 

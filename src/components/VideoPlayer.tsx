@@ -62,7 +62,14 @@ export default function VideoPlayer({ sources, poster, title }: { sources: Sourc
 
   if (src.type === 'embed' || src.type === 'youtube') return (
     <div className="aspect-video bg-black rounded-xl overflow-hidden">
-      <iframe src={src.url} className="w-full h-full" allowFullScreen allow="autoplay; fullscreen" title={title || 'Player'} />
+      <iframe
+        src={src.url}
+        className="w-full h-full"
+        allowFullScreen
+        allow="autoplay; fullscreen"
+        title={title || 'Player'}
+        sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+      />
     </div>
   );
 
