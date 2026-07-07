@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://boxo.name.ng"),
   title: {
     default: "Boxo - Watch Movies Free Online, Watch TV Series Online",
     template: "%s - Boxo",
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Boxo",
     locale: "en_US",
-    url: "https://boxo.app",
+    url: "https://boxo.name.ng",
     images: [
       {
         url: "/favicon.svg",
@@ -83,7 +84,7 @@ export const metadata: Metadata = {
       "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required.",
   },
   alternates: {
-    canonical: "https://boxo.app",
+    canonical: "https://boxo.name.ng",
   },
   category: "entertainment",
   classification: "Entertainment",
@@ -103,14 +104,14 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Boxo",
-  url: "https://boxo.app",
+  url: "https://boxo.name.ng",
   description:
     "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://boxo.app/search?q={search_term_string}",
+      urlTemplate: "https://boxo.name.ng/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
@@ -128,6 +129,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
+        {/* Google Search Console — replace with your verification code */}
+        {/* <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> */}
         <meta name="og:keywords" content="boxo, watch movies free online, free streaming, watch tv series online, movies, tv series, HD streaming, watch online free, movie streaming site, free tv shows" />
         <meta name="twitter:keywords" content="boxo, watch movies free online, free streaming, watch tv series online, movies, tv series" />
         <script
