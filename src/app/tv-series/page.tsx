@@ -3,6 +3,7 @@ import MovieCard from '@/components/MovieCard';
 import { tmdbFetch } from '@/lib/tmdb';
 import type { TMDBResponse, TMDBTVShow, TMDBGenre } from '@/lib/types';
 import { getYear } from '@/lib/tmdb';
+import type { Metadata } from 'next';
 
 const GENRES = [
   { s: 'action-adventure', id: 10759 }, { s: 'animation', id: 16 }, { s: 'comedy', id: 35 },
@@ -10,6 +11,34 @@ const GENRES = [
   { s: 'family', id: 10751 }, { s: 'mystery', id: 9648 }, { s: 'reality', id: 10764 },
   { s: 'sci-fi', id: 10765 }, { s: 'soap', id: 10766 }, { s: 'talk', id: 10767 },
 ];
+
+export async function generateMetadata({ searchParams }: { searchParams: { genre?: string } }): Promise<Metadata> {
+  const GENRES_LOOKUP = [
+    { s: 'action-adventure', id: 10759 }, { s: 'animation', id: 16 }, { s: 'comedy', id: 35 },
+    { s: 'crime', id: 80 }, { s: 'documentary', id: 99 }, { s: 'drama', id: 18 },
+    { s: 'family', id: 10751 }, { s: 'mystery', id: 9648 }, { s: 'reality', id: 10764 },
+    { s: 'sci-fi', id: 10765 }, { s: 'soap', id: 10766 }, { s: 'talk', id: 10767 },
+  ];
+  const gs = searchParams?.genre || '';
+  const genreName = gs ? GENRES_LOOKUP.find(x => x.s === gs)?.s.replace('-', ' & ') : null;
+  const title = genreName
+    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} TV Series - Watch Free Online | Boxo`
+    : 'TV Series - Watch Free Online, Free TV Shows Streaming | Boxo';
+  const description = genreName
+    ? `Watch the latest ${genreName} TV series online free in HD. Stream top ${genreName} shows, binge-worthy series, and classics with no registration.`
+    : 'Browse thousands of free TV series online in HD. Watch the latest shows, popular series, anime, and binge-worthy TV — all free to stream.';
+  return {
+    title,
+    description,
+    keywords: [
+      'watch tv series free online', 'free tv shows', genreName || 'TV series',
+      `${genreName || ''} shows stream`, 'binge watch free', 'TV streaming',
+      'watch tv online free', 'popular TV series', 'free TV shows streaming',
+    ].filter(Boolean),
+    openGraph: { title, description },
+    twitter: { title, description },
+  };
+};
 
 export default async function TVSeriesPage({ searchParams }: { searchParams: { genre?: string; page?: string } }) {
   const gs = searchParams?.genre || '';

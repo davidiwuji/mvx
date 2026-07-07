@@ -3,6 +3,36 @@ import MovieCard from '@/components/MovieCard';
 import { tmdbFetch } from '@/lib/tmdb';
 import type { TMDBResponse, TMDBMovie, TMDBGenre } from '@/lib/types';
 import { getYear } from '@/lib/tmdb';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ searchParams }: { searchParams: { genre?: string } }): Promise<Metadata> {
+  const GENRES_LOOKUP = [
+    { s: 'action', id: 28 }, { s: 'adventure', id: 12 }, { s: 'animation', id: 16 }, { s: 'comedy', id: 35 },
+    { s: 'crime', id: 80 }, { s: 'documentary', id: 99 }, { s: 'drama', id: 18 }, { s: 'family', id: 10751 },
+    { s: 'fantasy', id: 14 }, { s: 'history', id: 36 }, { s: 'horror', id: 27 }, { s: 'music', id: 10402 },
+    { s: 'mystery', id: 9648 }, { s: 'romance', id: 10749 }, { s: 'sci-fi', id: 878 }, { s: 'thriller', id: 53 },
+    { s: 'war', id: 10752 }, { s: 'western', id: 37 },
+  ];
+  const gs = searchParams?.genre || '';
+  const genreName = gs ? GENRES_LOOKUP.find(x => x.s === gs)?.s.replace('-', ' & ') : null;
+  const title = genreName
+    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} Movies - Watch Free Online | Boxo`
+    : 'Movies - Watch Free Online, Free Movie Streaming | Boxo';
+  const description = genreName
+    ? `Watch the latest ${genreName} movies online free in HD. Stream top ${genreName} films, blockbusters, and classics with no registration required.`
+    : 'Browse thousands of free movies online in HD. Watch the latest blockbusters, classic films, action, comedy, horror, and more — all free to stream.';
+  return {
+    title,
+    description,
+    keywords: [
+      'free movies online', 'watch movies free', genreName || 'movies',
+      `${genreName || ''} movies stream`, 'HD movies free', 'movie streaming',
+      'watch full movies', 'latest movies online', 'free movie database',
+    ].filter(Boolean),
+    openGraph: { title, description },
+    twitter: { title, description },
+  };
+};
 
 const GENRES = [
   { s: 'action', id: 28 }, { s: 'adventure', id: 12 }, { s: 'animation', id: 16 }, { s: 'comedy', id: 35 },
