@@ -1,4 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#FF6B00"/>
-  <text x="256" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="900" font-size="340" fill="white">▣</text>
+  <text x="256" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="900" font-size="420" fill="#222">▣</text>
 </svg>

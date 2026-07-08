@@ -31,4 +31,6 @@ export interface CastMember { id: number; name: string; character: string; profi
 export interface CrewMember { id: number; name: string; job: string; department: string; }
 export interface StreamSource { url: string; type: 'mp4' | 'm3u8' | 'embed' | 'youtube'; quality?: string; name?: string; }
 
+export interface DownloadSource { url: string; name?: string; }
+
 export type ContentType = 'movie' | 'tv';

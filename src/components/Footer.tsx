@@ -1,69 +1,88 @@
+const GENRES = [
+  { href: '/movies?genre=action', label: 'Action' },
+  { href: '/movies?genre=adventure', label: 'Adventure' },
+  { href: '/movies?genre=comedy', label: 'Comedy' },
+  { href: '/movies?genre=crime', label: 'Crime' },
+  { href: '/movies?genre=drama', label: 'Drama' },
+  { href: '/movies?genre=horror', label: 'Horror' },
+  { href: '/movies?genre=sci-fi', label: 'Sci-Fi' },
+  { href: '/movies?genre=thriller', label: 'Thriller' },
+];
+
 export default function Footer() {
   return (
-    <footer className="bg-[#1A1A1A] border-t border-[#333333] mt-16">
-      <div className="max-w-[1400px] mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-[#111111] border-t border-[#222222] mt-16">
+      <div className="max-w-[1400px] mx-auto px-4 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {/* Brand */}
-          <div>
-            <div className="flex items-center gap-1.5 mb-3">
-              <span className="text-lg font-bold text-white">▣</span>
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-xl font-bold">▣</span>
               <span className="text-lg font-bold">Boxo</span>
             </div>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              Watch thousands of movies and TV series online for free.
+            <p className="text-sm text-gray-500 leading-relaxed mb-4">
+              Watch thousands of movies and TV series online for free. No registration required.
             </p>
+            <div className="flex gap-3">
+              <a href="mailto:contact@boxo.name.ng" className="text-gray-600 hover:text-gray-400 transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.48a2 2 0 0 1-2.06 0L2 7"/></svg>
+              </a>
+            </div>
           </div>
 
           {/* Browse */}
           <div>
-            <h4 className="text-sm font-semibold mb-3">Browse</h4>
-            <div className="space-y-2 text-sm text-gray-400">
-              <a href="/movies" className="block hover:text-white">Movies</a>
-              <a href="/tv-series" className="block hover:text-white">TV Series</a>
-              <a href="/search" className="block hover:text-white">Search</a>
+            <h4 className="text-sm font-semibold mb-4 text-white/80">Browse</h4>
+            <div className="space-y-2.5 text-sm text-gray-500">
+              <a href="/movies" className="block hover:text-white transition-colors">Movies</a>
+              <a href="/tv-series" className="block hover:text-white transition-colors">TV Series</a>
+              <a href="/search" className="block hover:text-white transition-colors">Search</a>
             </div>
           </div>
 
           {/* Genres */}
           <div>
-            <h4 className="text-sm font-semibold mb-3">Genres</h4>
-            <div className="space-y-2 text-sm text-gray-400">
-              <a href="/movies?genre=action" className="block hover:text-white">Action</a>
-              <a href="/movies?genre=comedy" className="block hover:text-white">Comedy</a>
-              <a href="/movies?genre=drama" className="block hover:text-white">Drama</a>
-              <a href="/movies?genre=horror" className="block hover:text-white">Horror</a>
+            <h4 className="text-sm font-semibold mb-4 text-white/80">Genres</h4>
+            <div className="space-y-2.5 text-sm text-gray-400">
+              {GENRES.map(g => (
+                <a key={g.href} href={g.href} className="block hover:text-white transition-colors capitalize">{g.label}</a>
+              ))}
             </div>
           </div>
 
-          {/* Info */}
+          {/* TV Genres */}
           <div>
-            <h4 className="text-sm font-semibold mb-3">Legal</h4>
-            <div className="space-y-2 text-sm text-gray-400">
-              <a href="/privacy" className="block hover:text-white underline underline-offset-2 decoration-orange-500/30 hover:decoration-orange-500 transition-all">
-                Privacy Policy
-              </a>
-              <p className="text-xs text-gray-600 mt-3 leading-relaxed">
-                Boxo does not own or host any content. All movies and TV shows belong to their respective owners.
+            <h4 className="text-sm font-semibold mb-4 text-white/80">TV Genres</h4>
+            <div className="space-y-2.5 text-sm text-gray-400">
+              <a href="/tv-series?genre=action" className="block hover:text-white transition-colors">Action</a>
+              <a href="/tv-series?genre=comedy" className="block hover:text-white transition-colors">Comedy</a>
+              <a href="/tv-series?genre=drama" className="block hover:text-white transition-colors">Drama</a>
+              <a href="/tv-series?genre=crime" className="block hover:text-white transition-colors">Crime</a>
+              <a href="/tv-series?genre=sci-fi" className="block hover:text-white transition-colors">Sci-Fi</a>
+              <a href="/tv-series?genre=animation" className="block hover:text-white transition-colors">Animation</a>
+            </div>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-sm font-semibold mb-4 text-white/80">Legal</h4>
+            <div className="space-y-2.5 text-sm text-gray-400">
+              <a href="/privacy" className="block hover:text-white transition-colors">Privacy Policy</a>
+              <p className="text-xs text-gray-600 mt-4 leading-relaxed">
+                Boxo does not host, store, or own any content. All content is embedded from third-party services and belongs to their respective owners.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Disclaimer summary bar */}
-        <div className="border-t border-[#333333] mt-8 pt-6">
-          <p className="text-xs text-gray-600 text-center leading-relaxed max-w-3xl mx-auto">
-            <strong className="text-gray-500">Disclaimer:</strong> Boxo does not host, store, or manage any video files. 
-            All content displayed is embedded from third-party services and belongs to their respective copyright holders. 
-            Boxo has no affiliation with any content owners. If you believe your copyright has been violated, please{' '}
-            <a href="/privacy" className="text-orange-500 hover:text-orange-400 underline underline-offset-2">
-              contact us
-            </a>.
+        {/* Bottom bar */}
+        <div className="border-t border-[#222222] mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-600">
+            &copy; {new Date().getFullYear()} Boxo. All rights reserved.
           </p>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-4 text-center text-xs text-gray-700">
-          &copy; {new Date().getFullYear()} Boxo. All rights reserved.
+          <p className="text-xs text-gray-700">
+            We do not host any content. All materials belong to their respective owners.
+          </p>
         </div>
       </div>
     </footer>

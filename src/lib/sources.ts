@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { StreamSource, ContentType } from './types';
+import type { StreamSource, ContentType, DownloadSource } from './types';
 
 /**
- * Embed providers — ordered by ad experience (cleanest first).
- *
- * Cleanest → Heaviest:
- * ① Embed.su      — Minimal ads
- * ② 2Embed.cc     — Light ads
- * ③ VidLink.pro   — Moderate ads
- * ④ VidSrc Pro    — More ads / popups
- * ⑤ VidSrc.to     — Heaviest ads (last resort)
+ * Embed providers.
  */
 const EMBED_PROVIDERS = [
   {
-    name: 'Embed',
+    name: 'Embed.su',
     movie: (id: number) => `https://embed.su/embed/movie/${id}`,
     tv: (id: number, season?: number, episode?: number) =>
       `https://embed.su/embed/tv/${id}/${season || 1}/${episode || 1}`,
@@ -31,16 +24,16 @@ const EMBED_PROVIDERS = [
       `https://vidlink.pro/tv/${id}/${season || 1}/${episode || 1}`,
   },
   {
+    name: 'VidSrc.to',
+    movie: (id: number) => `https://vidsrc.to/embed/movie/${id}`,
+    tv: (id: number, season?: number, episode?: number) =>
+      `https://vidsrc.to/embed/tv/${id}/${season || 1}/${episode || 1}`,
+  },
+  {
     name: 'VidSrc Pro',
     movie: (id: number) => `https://vidsrc.pro/embed/movie/${id}`,
     tv: (id: number, season?: number, episode?: number) =>
       `https://vidsrc.pro/embed/tv/${id}/${season || 1}/${episode || 1}`,
-  },
-  {
-    name: 'VidSrc',
-    movie: (id: number) => `https://vidsrc.to/embed/movie/${id}`,
-    tv: (id: number, season?: number, episode?: number) =>
-      `https://vidsrc.to/embed/tv/${id}/${season || 1}/${episode || 1}`,
   },
 ];
 
@@ -51,26 +44,50 @@ export function getEmbedSources(
   episode?: number
 ): StreamSource[] {
   const sources: StreamSource[] = [];
-
   for (const p of EMBED_PROVIDERS) {
     try {
       const url = type === 'movie' ? p.movie(tmdbId) : p.tv(tmdbId, season, episode);
-      sources.push({
-        name: p.name,
-        url,
-        type: 'embed',
-        quality: 'HD',
-      });
+      sources.push({ name: p.name, url, type: 'embed', quality: 'HD' });
     } catch {
       // skip invalid providers
     }
   }
-
   return sources;
 }
 
 /**
- * Generate stream sources from TMDB data (trailer + embeds)
+ * Download providers.
+ */
+const DOWNLOAD_PROVIDERS = [
+  {
+    name: 'Download',
+    movie: (id: number) => `https://filemoon.sx/movie/${id}`,
+    tv: (id: number, season?: number, episode?: number) =>
+      `https://filemoon.sx/tv/${id}/${season || 1}/${episode || 1}`,
+  },
+];
+
+export function getDownloadSources(
+  tmdbId: number,
+  type: ContentType,
+  season?: number,
+  episode?: number
+): DownloadSource[] {
+  const sources: DownloadSource[] = [];
+  for (const p of DOWNLOAD_PROVIDERS) {
+    try {
+      const url = type === 'movie' ? p.movie(tmdbId) : p.tv(tmdbId, season, episode);
+      sources.push({ name: p.name, url });
+    } catch {
+      // skip
+    }
+  }
+  return sources;
+}
+
+/**
+ * Generate stream sources — **Trailer first** (so YT loads by default),
+ * then embed sources as fallback options.
  */
 export function getStreamSources(
   detail: any,
@@ -80,7 +97,7 @@ export function getStreamSources(
 ): StreamSource[] {
   const sources: StreamSource[] = [];
 
-  // Add YouTube trailer if available
+  // 1. YouTube trailer first (default player — loads immediately)
   if (detail.videos?.results?.length > 0) {
     const trailer = detail.videos.results.find(
       (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
@@ -88,14 +105,14 @@ export function getStreamSources(
     if (trailer?.key) {
       sources.push({
         name: 'Trailer',
-        url: `https://www.youtube.com/embed/${trailer.key}`,
+        url: `https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0`,
         type: 'embed',
         quality: 'HD',
       });
     }
   }
 
-  // Add embed sources (cleanest → heaviest order)
+  // 2. Embed sources as fallback options (actual movie streams)
   const embeds = getEmbedSources(detail.id, type, season, episode);
   sources.push(...embeds);
 

@@ -55,6 +55,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'TMDB_API_KEY not configured on server' }, { status: 500 });
   }
 
+  // Configuration endpoint returns the key so client can make direct TMDB calls
+  if (clean === '/configuration') {
+    return NextResponse.json({ key: apiKey });
+  }
+
   try {
     const params = new URLSearchParams();
     params.set('api_key', apiKey);
