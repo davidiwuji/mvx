@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { StreamSource, ContentType, DownloadSource } from './types';
+import type { StreamSource, ContentType } from './types';
 
 /**
  * Embed providers.
@@ -56,38 +56,7 @@ export function getEmbedSources(
 }
 
 /**
- * Download providers.
- */
-const DOWNLOAD_PROVIDERS = [
-  {
-    name: 'Download',
-    movie: (id: number) => `https://filemoon.sx/movie/${id}`,
-    tv: (id: number, season?: number, episode?: number) =>
-      `https://filemoon.sx/tv/${id}/${season || 1}/${episode || 1}`,
-  },
-];
-
-export function getDownloadSources(
-  tmdbId: number,
-  type: ContentType,
-  season?: number,
-  episode?: number
-): DownloadSource[] {
-  const sources: DownloadSource[] = [];
-  for (const p of DOWNLOAD_PROVIDERS) {
-    try {
-      const url = type === 'movie' ? p.movie(tmdbId) : p.tv(tmdbId, season, episode);
-      sources.push({ name: p.name, url });
-    } catch {
-      // skip
-    }
-  }
-  return sources;
-}
-
-/**
- * Generate stream sources — **Trailer first** (so YT loads by default),
- * then embed sources as fallback options.
+ * Generate stream sources — Trailer first, then embed sources.
  */
 export function getStreamSources(
   detail: any,
@@ -97,7 +66,7 @@ export function getStreamSources(
 ): StreamSource[] {
   const sources: StreamSource[] = [];
 
-  // 1. YouTube trailer first (default player — loads immediately)
+  // 1. YouTube trailer first (default player)
   if (detail.videos?.results?.length > 0) {
     const trailer = detail.videos.results.find(
       (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
@@ -112,7 +81,7 @@ export function getStreamSources(
     }
   }
 
-  // 2. Embed sources as fallback options (actual movie streams)
+  // 2. Embed sources as fallback options
   const embeds = getEmbedSources(detail.id, type, season, episode);
   sources.push(...embeds);
 

@@ -6,9 +6,9 @@ import Link from 'next/link';
 import VideoPlayer from '@/components/VideoPlayer';
 import MovieCard from '@/components/MovieCard';
 import { tmdbImage, getYear } from '@/lib/tmdb';
-import { getStreamSources, getDownloadSources } from '@/lib/sources';
+import { getStreamSources } from '@/lib/sources';
 import { addToWatchHistory } from '@/lib/storage';
-import type { TMDBMovie, TMDBTVShow, ContentType, StreamSource, DownloadSource } from '@/lib/types';
+import type { TMDBMovie, TMDBTVShow, ContentType, StreamSource } from '@/lib/types';
 
 const tmdbFetch = async (url: string) => { const r = await fetch(url); if (!r.ok) throw new Error('Fetch failed'); return r.json(); };
 
@@ -23,7 +23,6 @@ export default function DetailPage({ params }: { params: { slug: string } }) {
   const [type, setType] = useState<ContentType>('movie');
   const [season, setSeason] = useState(1);
   const [episode, setEpisode] = useState(1);
-  const [downloadSources, setDownloadSources] = useState<DownloadSource[]>([]);
 
   const getTmdbId = () => { const m = slug.match(/-(\d+)$/); return m ? parseInt(m[1]) : 0; };
 
@@ -48,7 +47,6 @@ export default function DetailPage({ params }: { params: { slug: string } }) {
         setRecommended(rec.results?.slice(0, 12) || []);
 
         setSources(getStreamSources(d, t as ContentType, season, episode));
-        setDownloadSources(getDownloadSources(d.id, t as ContentType, season, episode));
       } catch { setDetail(null); }
       setLoading(false);
     };
@@ -58,7 +56,6 @@ export default function DetailPage({ params }: { params: { slug: string } }) {
   const updateSource = () => {
     if (!detail) return;
     setSources(getStreamSources(detail, type, season, episode));
-    setDownloadSources(getDownloadSources(detail.id, type, season, episode));
   };
 
   useEffect(() => {
@@ -243,20 +240,6 @@ export default function DetailPage({ params }: { params: { slug: string } }) {
                   {s.name || `Server ${i + 1}`}
                   {i === 0 && <span className="ml-1.5 text-[10px] opacity-70">●</span>}
                 </button>
-              ))}
-            </div>
-          )}
-
-          {/* Download Buttons */}
-          {downloadSources.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-[#333333]">
-              <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wider mr-1">Download</span>
-              {downloadSources.map((ds, i) => (
-                <a key={i} href={ds.url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs px-3 py-1.5 rounded-lg font-medium bg-green-900/20 text-green-400 hover:bg-green-800/30 transition-colors border border-green-800/30 hover:border-green-700/50 flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  {ds.name || 'Download'}
-                </a>
               ))}
             </div>
           )}
