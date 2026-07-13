@@ -16,10 +16,6 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold">▣</span>
-              <span className="text-lg font-bold">Boxo</span>
-            </div>
             <p className="text-sm text-gray-500 leading-relaxed mb-4">
               Watch thousands of movies and TV series online for free. No registration required.
             </p>

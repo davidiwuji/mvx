@@ -6,7 +6,10 @@ import { useRouter, usePathname } from 'next/navigation';
 const links = [
   { href: '/', label: 'Home' },
   { href: '/movies', label: 'Movies' },
-  { href: '/tv-series', label: 'TV Series' },
+  { href: '/tv-series', label: 'Series' },
+  { href: '/anime', label: 'Anime' },
+  { href: '/sports', label: 'Sports' },
+  { href: '/explore', label: 'Explore' },
 ];
 
 export default function Navbar() {
@@ -45,8 +48,11 @@ export default function Navbar() {
     }`}>
       <div className="max-w-[1400px] mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-xl font-bold">▣</span>
-          <span className="text-lg font-bold tracking-tight">Boxo</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-gray-300 group-hover:text-white transition-colors">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <span className="sr-only">Home</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
@@ -77,7 +83,7 @@ export default function Navbar() {
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Search movies, TV..."
+                placeholder="Search movies, series, anime..."
                 className="bg-[#1A1A1A] border border-[#333333] rounded-lg px-3 py-1.5 text-sm w-44 md:w-56 text-white placeholder-gray-600 focus:outline-none focus:border-[#FF6B00] transition-colors"
                 onBlur={() => { if (!query) setSearchOpen(false); }}
               />

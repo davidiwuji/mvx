@@ -16,8 +16,8 @@ export async function generateMetadata({ searchParams }: { searchParams: { genre
   const gs = searchParams?.genre || '';
   const genreName = gs ? GENRES_LOOKUP.find(x => x.s === gs)?.s.replace('-', ' & ') : null;
   const title = genreName
-    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} Movies - Watch Free Online | Boxo`
-    : 'Movies - Watch Free Online, Free Movie Streaming | Boxo';
+    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} Movies - Watch Free Online`
+    : 'Movies - Watch Free Online, Free Movie Streaming';
   const description = genreName
     ? `Watch the latest ${genreName} movies online free in HD. Stream top ${genreName} films, blockbusters, and classics with no registration required.`
     : 'Browse thousands of free movies online in HD. Watch the latest blockbusters, classic films, action, comedy, horror, and more — all free to stream.';

@@ -8,8 +8,8 @@ import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://boxo.name.ng"),
   title: {
-    default: "Boxo - Watch Movies Free Online, Watch TV Series Online",
-    template: "%s - Boxo",
+    default: "Watch Movies Free Online, Watch TV Series Online",
+    template: "%s",
   },
   description:
     "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required. Browse the latest blockbusters, classic films, trending TV shows, and anime — all in one place.",
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     "watch movies free online",
     "free streaming",
     "watch tv series online",
-    "Boxo",
     "movies",
     "tv series",
     // Long-tail
@@ -51,8 +50,13 @@ export const metadata: Metadata = {
     "free movie database",
     "online video streaming",
   ],
-  applicationName: "Boxo",
-  authors: [{ name: "Boxo" }],
+  applicationName: "MovieStream",
+  authors: [{ name: "MovieStream" }],
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   generator: "Next.js",
   referrer: "origin-when-cross-origin",
   robots: {
@@ -63,11 +67,10 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
   },
   openGraph: {
-    title: "Boxo - Watch Movies Free Online",
+    title: "Watch Movies Free Online",
     description:
       "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required.",
     type: "website",
-    siteName: "Boxo",
     locale: "en_US",
     url: "https://boxo.name.ng",
     images: [
@@ -75,13 +78,13 @@ export const metadata: Metadata = {
         url: "/favicon.svg",
         width: 1200,
         height: 630,
-        alt: "Boxo - Free Movie Streaming",
+        alt: "Free Movie Streaming",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boxo - Watch Movies Free Online",
+    title: "Watch Movies Free Online",
     description:
       "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required.",
   },
@@ -96,16 +99,15 @@ export const metadata: Metadata = {
   },
   other: {
     "og:keywords":
-      "boxo, watch movies free online, free streaming, watch tv series online, movies, tv series, HD streaming, watch online free, movie streaming site, free tv shows",
+      "watch movies free online, free streaming, watch tv series online, movies, tv series, HD streaming, watch online free, movie streaming site, free tv shows",
     "twitter:keywords":
-      "boxo, watch movies free online, free streaming, watch tv series online, movies, tv series",
+      "watch movies free online, free streaming, watch tv series online, movies, tv series",
   },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Boxo",
   url: "https://boxo.name.ng",
   description:
     "Watch thousands of movies and TV series online for free. HD quality streaming with no registration required.",
@@ -129,12 +131,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
         {/* Google Search Console — replace with your verification code */}
         {/* <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> */}
-        <meta name="og:keywords" content="boxo, watch movies free online, free streaming, watch tv series online, movies, tv series, HD streaming, watch online free, movie streaming site, free tv shows" />
-        <meta name="twitter:keywords" content="boxo, watch movies free online, free streaming, watch tv series online, movies, tv series" />
+        <meta name="og:keywords" content="watch movies free online, free streaming, watch tv series online, movies, tv series, HD streaming, watch online free, movie streaming site, free tv shows" />
+        <meta name="twitter:keywords" content="watch movies free online, free streaming, watch tv series online, movies, tv series" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

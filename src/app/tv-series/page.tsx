@@ -22,8 +22,8 @@ export async function generateMetadata({ searchParams }: { searchParams: { genre
   const gs = searchParams?.genre || '';
   const genreName = gs ? GENRES_LOOKUP.find(x => x.s === gs)?.s.replace('-', ' & ') : null;
   const title = genreName
-    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} TV Series - Watch Free Online | Boxo`
-    : 'TV Series - Watch Free Online, Free TV Shows Streaming | Boxo';
+    ? `${genreName.charAt(0).toUpperCase() + genreName.slice(1)} TV Series - Watch Free Online`
+    : 'TV Series - Watch Free Online, Free TV Shows Streaming';
   const description = genreName
     ? `Watch the latest ${genreName} TV series online free in HD. Stream top ${genreName} shows, binge-worthy series, and classics with no registration.`
     : 'Browse thousands of free TV series online in HD. Watch the latest shows, popular series, anime, and binge-worthy TV — all free to stream.';
