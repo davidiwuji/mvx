@@ -3,6 +3,8 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import VisitCounter from '@/components/VisitCounter';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mvx.stream'),
@@ -73,6 +75,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Analytics / Visitor counter */}
         <VisitCounter />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
