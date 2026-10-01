@@ -62,6 +62,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <script
+          async
+          src="https://pl31052260.profitableratecpmnetwork.com/4b/6e/cf/4b6ecf8c3c9bbcd6c1093343f5fbc50a.js"
+        />
       </head>
       <body className="min-h-screen bg-[#090B10] text-white antialiased selection:bg-[#FF6B00] selection:text-white">
         {/* Floating Deck Menu */}
