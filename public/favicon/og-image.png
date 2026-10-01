@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#FF6B00"/>
+  <g transform="translate(256,256) scale(6.5)">
+    <path d="M-30-30 L30-30 L30-30 L30 30 L-30 30 Z" fill="none" stroke="white" stroke-width="6"/>
+  </g>
+  <text x="256" y="300" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="80" fill="white">Boxo</text>
+</svg>
